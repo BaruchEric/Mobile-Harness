@@ -139,7 +139,8 @@ class ClaudeRuntimeBridge(
 
             val command = buildList {
                 add(launch.executable)
-                add("--bare")
+                // --bare skips keychain and credential reads, which breaks the Claude subscription login.
+                if (provider.kind.protocol != com.jarves.mh.model.ProviderProtocol.CLAUDE_LOGIN) add("--bare")
                 add("-p")
                 add(contextPrompt)
                 add("--output-format")
